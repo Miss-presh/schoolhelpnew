@@ -1,24 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Schoolhelphub Custom Branding Tokens */
-  --color-brand-green: #005A32;
-  --color-brand-midGreen: #007A45;
-  --color-brand-deepGreen: #003D22;
-  --color-brand-lightGreen: #EBF4EE;
-  --color-brand-faintGreen: #F4FAF6;
-  --color-brand-yellow: #FFCE2E;
-  --color-brand-deepYellow: #E6B800;
-  --color-brand-softYellow: #FFF8D6;
-  --color-brand-cream: #FDFCF8;
-  --color-brand-textNearBlack: #111810;
-  --color-brand-mutedSage: #5A6B5C;
+  /* Schoolhelphub Brand Tokens */
+  --color-brand-green:        #005A32;
+  --color-brand-midGreen:     #007A45;
+  --color-brand-deepGreen:    #003D22;
+  --color-brand-lightGreen:   #EBF4EE;
+  --color-brand-faintGreen:   #F4FAF6;
+  --color-brand-yellow:       #FFCE2E;
+  --color-brand-deepYellow:   #E6B800;
+  --color-brand-softYellow:   #FFF8D6;
+  --color-brand-cream:        #FDFCF8;
+  --color-brand-textNearBlack:#111810;
+  --color-brand-mutedSage:    #5A6B5C;
 
-  /* Typography Engine Definitions */
   --font-serif: var(--font-serif), serif;
-  --font-sans: var(--font-sans), sans-serif;
+  --font-sans:  var(--font-sans), sans-serif;
 
-  /* Premium Box Shadow Scales */
   --shadow-sm-brand: 0 2px 12px rgba(0, 90, 50, 0.06);
   --shadow-md-brand: 0 8px 32px rgba(0, 90, 50, 0.10);
   --shadow-lg-brand: 0 20px 56px rgba(0, 90, 50, 0.14);
@@ -29,20 +27,138 @@
   min-width: 44px;
 }
 
-* {
-  selection-background-color: #FFCE2E;
-  selection-color: #003D22;
+/* ── Scroll-reveal system ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(.22,1,.36,1),
+              transform 0.65s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.65s cubic-bezier(.22,1,.36,1),
+              transform 0.65s cubic-bezier(.22,1,.36,1);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.65s cubic-bezier(.22,1,.36,1),
+              transform 0.65s cubic-bezier(.22,1,.36,1);
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.55s cubic-bezier(.22,1,.36,1),
+              transform 0.55s cubic-bezier(.22,1,.36,1);
+}
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
 }
 
-@layer utilities {
-  .animate-shimmer-mesh {
-    background-size: 200% 200%;
-    animation: shimmerMesh 8s ease infinite;
-  }
-}
+/* Stagger delays */
+.delay-100 { transition-delay: 0.10s; }
+.delay-150 { transition-delay: 0.15s; }
+.delay-200 { transition-delay: 0.20s; }
+.delay-300 { transition-delay: 0.30s; }
+.delay-400 { transition-delay: 0.40s; }
+.delay-500 { transition-delay: 0.50s; }
+.delay-600 { transition-delay: 0.60s; }
+.delay-700 { transition-delay: 0.70s; }
 
+/* ── Keyframe animations ── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(2deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
 @keyframes shimmerMesh {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0   rgba(255,206,46,0.45); }
+  70%  { box-shadow: 0 0 0 18px rgba(255,206,46,0); }
+  100% { box-shadow: 0 0 0 0   rgba(255,206,46,0); }
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.6; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.3); }
+  50%  { opacity: 1; transform: scale(1.05); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes gradientFlow {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg);  }
+  25%        { transform: rotate(-8deg); }
+  75%        { transform: rotate( 8deg); }
+}
+
+/* Utility classes */
+@layer utilities {
+  .animate-fadeInUp   { animation: fadeInUp 0.7s ease both; }
+  .animate-fadeIn     { animation: fadeIn   0.6s ease both; }
+  .animate-float      { animation: float    4s ease-in-out infinite; }
+  .animate-floatSlow  { animation: floatSlow 6s ease-in-out infinite; }
+  .animate-shimmer    { animation: shimmer  2.5s linear infinite; background-size: 200% auto; }
+  .animate-shimmer-mesh { background-size: 200% 200%; animation: shimmerMesh 8s ease infinite; }
+  .animate-pulse-ring { animation: pulseRing 2s infinite; }
+  .animate-pulse-dot  { animation: pulseDot  2s infinite; }
+  .animate-wave       { animation: wave 2s ease-in-out infinite; display: inline-block; }
+  .animate-spin-slow  { animation: spin-slow 12s linear infinite; }
+  .animate-gradient   { background-size: 200% 200%; animation: gradientFlow 4s ease infinite; }
+  .animate-bounce-in  { animation: bounceIn 0.6s cubic-bezier(.22,1,.36,1) both; }
+  .animate-count-up        { animation: countUp 0.5s ease both; }
+  .animate-slide-in-right  { animation: slideInRight 0.55s cubic-bezier(.22,1,.36,1) both; }
+  .animate-slideInRight    { animation: slideInRight 0.55s cubic-bezier(.22,1,.36,1) both; }
 }
