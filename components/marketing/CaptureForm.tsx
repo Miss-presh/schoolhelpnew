@@ -1,152 +1,232 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+
+type FormState = "idle" | "loading" | "success" | "error";
+
+const AGE_OPTIONS = ["4–7 years (Year R–2)", "8–10 years (Year 3–5)", "11–13 years (Year 6–8)", "14–16 years (Year 9–11)"];
+const SUBJECT_OPTIONS = [
+  "Mathematics", "English Language", "Science", "Coding & Technology",
+  "Languages (French/Spanish)", "11+ Exam Prep", "GCSE Exam Prep",
+  "WAEC / BECE / NECO Prep", "SAT / ACT Prep",
+];
+const TIMEZONE_OPTIONS = [
+  "🇳🇬 Nigeria (WAT — UTC+1)", "🇬🇧 United Kingdom (GMT/BST)", "Other",
+];
+
+const reassurances = [
+  { icon: "📅", title: "Flexible Slots", desc: "Morning, afternoon & evening — all timezones" },
+  { icon: "👩‍🏫", title: "Qualified Tutors Only", desc: "Vetted, experienced, subject-specialist teachers" },
+  { icon: "📋", title: "Report Included", desc: "Full session report even from the booking session" },
+  { icon: "💬", title: "Reply Within 24 hrs", desc: "We confirm your booking and send a calendar invite" },
+];
 
 export default function CaptureForm() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [state, setState] = useState<FormState>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [form, setForm] = useState({
     parentName: "",
-    parentEmail: "",
-    parentPhone: "",
+    email: "",
+    phone: "",
     childAge: "",
-    targetSubject: "",
-    regionalCurriculum: "UK",
+    subject: "",
+    timezone: "",
+    message: "",
   });
+
+  useEffect(() => {
+    if (state !== "success") return;
+    const t = setTimeout(() => setState("idle"), 3000);
+    return () => clearTimeout(t);
+  }, [state]);
+
+  const set = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setErrorMsg("");
 
-    // Simulate database write delay
-    setTimeout(() => {
-      setLoading(false);
-      // Perfect redirection flow to maintain onboarding velocity
-      router.push("/free-trial?status=success");
-    }, 1200);
+    // Phone validation — strip non-digits, must be 7–15 digits
+    const digitsOnly = form.phone.replace(/\D/g, "");
+    if (digitsOnly.length < 7 || digitsOnly.length > 15) {
+      setState("error");
+      setErrorMsg("Please enter a valid phone number (e.g. +234 704 352 3556 or 0704 352 3556).");
+      return;
+    }
+
+    setState("loading");
+
+    try {
+      const res = await fetch("/api/book-trial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed");
+      }
+
+      setState("success");
+      setForm({ parentName: "", email: "", phone: "", childAge: "", subject: "", timezone: "", message: "" });
+    } catch (err) {
+      setState("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try WhatsApp.");
+    }
   };
 
   return (
-    <section className="py-24 bg-brand-faintGreen px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-brand-lightGreen p-8 sm:p-12 shadow-md-brand">
-        <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-deepGreen">
-            Claim Your Free Academic Evaluation Lesson
-          </h2>
-          <p className="text-sm text-brand-mutedSage font-sans">
-            No credit card details required. Fill out your requirements below, and an expert educational advisor will match your student within 4 hours.
-          </p>
-        </div>
+    <section id="book" className="py-20 lg:py-28 bg-brand-cream px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
 
-        <form onSubmit={handleSubmit} className="space-y-6 font-sans">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            {/* Field 1: Parent Name */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Parent/Guardian Full Name
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="e.g. Sarah Jenkins"
-                value={formData.parentName}
-                onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors"
-              />
-            </div>
-
-            {/* Field 2: Parent Email */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Email Address
-              </label>
-              <input
-                type="email"
-                required
-                placeholder="name@domain.com"
-                value={formData.parentEmail}
-                onChange={(e) => setFormData({ ...formData, parentEmail: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors"
-              />
-            </div>
-
-            {/* Field 3: Phone Number */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Contact Phone Number
-              </label>
-              <input
-                type="tel"
-                required
-                placeholder="e.g. +44 7123 456789"
-                value={formData.parentPhone}
-                onChange={(e) => setFormData({ ...formData, parentPhone: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors"
-              />
-            </div>
-
-            {/* Field 4: Target Region */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Target Curriculum Framework
-              </label>
-              <select
-                value={formData.regionalCurriculum}
-                onChange={(e) => setFormData({ ...formData, regionalCurriculum: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors appearance-none cursor-pointer"
-              >
-                <option value="UK">United Kingdom (GCSE / 11+ / KS1-4)</option>
-                <option value="US">United States (K-12 / AP Foundations)</option>
-              </select>
-            </div>
-
-            {/* Field 5: Child Age */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Student Age / Grade Level
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="e.g. 11 Years Old / Year 7"
-                value={formData.childAge}
-                onChange={(e) => setFormData({ ...formData, childAge: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors"
-              />
-            </div>
-
-            {/* Field 6: Target Subject Focus */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
-                Primary Academic Concern
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="e.g. Mathematics Foundations & Exam Panic"
-                value={formData.targetSubject}
-                onChange={(e) => setFormData({ ...formData, targetSubject: e.target.value })}
-                className="w-full bg-brand-cream border border-brand-lightGreen px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-brand-green transition-colors"
-              />
-            </div>
-
+        {/* Left: Copy + reassurances */}
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <span className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-brand-midGreen bg-brand-lightGreen px-4 py-1.5 rounded-full border border-brand-green/10">
+              <span className="w-4 h-px bg-brand-midGreen" />
+              Session Booking
+              <span className="w-4 h-px bg-brand-midGreen" />
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deepGreen leading-tight">
+              Book Your Child&apos;s<br />
+              Session <em className="italic text-brand-midGreen">Today</em>
+            </h2>
+            <p className="text-brand-mutedSage text-base font-light leading-relaxed">
+              No commitment. No payment. 45 minutes with a qualified tutor and a full report afterwards.
+            </p>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-brand-yellow hover:bg-brand-deepYellow disabled:opacity-50 text-brand-deepGreen font-bold p-4 rounded-xl shadow-md-brand hover:-translate-y-0.5 transition-all duration-150 text-sm mt-4 cursor-pointer flex items-center justify-center gap-2"
+          <div className="space-y-5">
+            {reassurances.map((r, i) => (
+              <div key={i} className="flex items-start gap-4">
+                <div className="w-11 h-11 bg-brand-lightGreen rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                  {r.icon}
+                </div>
+                <div>
+                  <p className="font-bold text-brand-deepGreen text-sm">{r.title}</p>
+                  <p className="text-brand-mutedSage text-xs mt-0.5 font-light">{r.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* WhatsApp shortcut */}
+          <a
+            href="https://wa.me/2347043523556?text=Hi%20Schoolhelphub%2C%20I%27d%20like%20to%20book%20a%20free%20trial%20for%20my%20child."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold px-6 py-3.5 rounded-xl text-sm transition-all duration-200 shadow-md hover:-translate-y-0.5 tap-target"
           >
-            {loading ? (
-              <span className="w-5 h-5 border-2 border-brand-deepGreen border-t-transparent rounded-full animate-spin" />
-            ) : (
-              "Initialize Free Matching Process"
-            )}
-          </button>
-        </form>
+            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.239 3.48 8.421-.003 6.557-5.338 11.902-11.892 11.902-2.004-.001-3.973-.51-5.713-1.479L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.37 9.864-9.742.002-2.602-1.01-5.05-2.85-6.892-1.84-1.842-4.29-2.856-6.889-2.858-5.441 0-9.867 4.371-9.871 9.743-.001 1.933.507 3.821 1.474 5.485L1.922 22.18l4.725-1.026z"/></svg>
+            Or Book via WhatsApp
+          </a>
+        </div>
+
+        {/* Right: Form card */}
+        <div className="bg-white rounded-2xl border border-brand-lightGreen shadow-xl shadow-brand-green/8 p-8 sm:p-10">
+
+          {state === "success" ? (
+            <div className="py-12 text-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-3xl mx-auto">✅</div>
+              <h3 className="font-serif text-2xl font-bold text-brand-deepGreen">Booking Received!</h3>
+              <p className="text-brand-mutedSage text-sm max-w-xs mx-auto leading-relaxed">
+                We&apos;ll confirm your booking slot and send a calendar invite within 24 hours.
+              </p>
+              <button
+                onClick={() => setState("idle")}
+                className="text-brand-green text-sm font-bold hover:underline"
+              >
+                Submit another enquiry →
+              </button>
+            </div>
+          ) : (
+            <>
+              <h3 className="font-serif text-2xl font-bold text-brand-deepGreen mb-7">Book a Session</h3>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Parent's Name">
+                    <input required type="text" placeholder="e.g. Temi Adeleke" value={form.parentName} onChange={set("parentName")} className={inputClass} />
+                  </Field>
+                  <Field label="Email Address">
+                    <input required type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} className={inputClass} />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Phone / WhatsApp">
+                    <input required type="tel" placeholder="+234 704 352 3556" value={form.phone} onChange={set("phone")} maxLength={16} className={inputClass} />
+                  </Field>
+                  <Field label="Child's Age Group">
+                    <select required value={form.childAge} onChange={set("childAge")} className={inputClass}>
+                      <option value="">Select age...</option>
+                      {AGE_OPTIONS.map((o) => <option key={o}>{o}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Subject">
+                    <select required value={form.subject} onChange={set("subject")} className={inputClass}>
+                      <option value="">Select subject...</option>
+                      {SUBJECT_OPTIONS.map((o) => <option key={o}>{o}</option>)}
+                    </select>
+                  </Field>
+                  <Field label="Your Timezone">
+                    <select required value={form.timezone} onChange={set("timezone")} className={inputClass}>
+                      <option value="">Select timezone...</option>
+                      {TIMEZONE_OPTIONS.map((o) => <option key={o}>{o}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                <Field label="Anything We Should Know? (optional)">
+                  <textarea placeholder="e.g. exam in March, specific topics, any learning needs…" value={form.message} onChange={set("message")} rows={3} className={inputClass} />
+                </Field>
+
+                {state === "error" && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+                    ⚠️ {errorMsg}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={state === "loading"}
+                  className="w-full bg-brand-green hover:bg-brand-deepGreen disabled:opacity-60 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all duration-200 hover:-translate-y-0.5 shadow-md hover:shadow-lg tap-target text-sm"
+                >
+                  {state === "loading" ? (
+                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      Book A Session
+                      <span className="w-7 h-7 rounded-full bg-brand-yellow text-brand-deepGreen flex items-center justify-center text-xs font-bold">→</span>
+                    </>
+                  )}
+                </button>
+
+                <p className="text-center text-xs text-brand-mutedSage">
+                  No payment needed · <strong className="text-brand-green">Response within 24 hours</strong> · Cancel anytime
+                </p>
+              </form>
+            </>
+          )}
+        </div>
       </div>
     </section>
+  );
+}
+
+const inputClass =
+  "w-full bg-brand-faintGreen border border-brand-lightGreen px-4 py-3 rounded-xl text-sm text-brand-textNearBlack placeholder:text-brand-mutedSage/60 focus:outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 transition-all duration-150 appearance-none";
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-green">{label}</label>
+      {children}
+    </div>
   );
 }
