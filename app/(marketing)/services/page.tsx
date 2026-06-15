@@ -130,7 +130,7 @@ export default function ServicesPage() {
               href="/free-trial" 
               className="bg-brand-yellow hover:bg-brand-deepYellow text-brand-deepGreen font-bold px-8 py-3.5 rounded-xl text-sm transition-all duration-150 shadow-md-brand inline-block tap-target"
             >
-              Configure Free Trial Matching
+              Configure Your Matching
             </Link>
           </div>
         </div>
