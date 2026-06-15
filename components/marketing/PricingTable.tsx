@@ -158,7 +158,7 @@ export default function PricingTable() {
                 <span className={`font-serif text-5xl font-bold tracking-tight transition-all duration-200 ${plan.featured ? "text-white" : "text-brand-deepGreen"}`}>
                   {isClient ? symbol : "₦"}{activeCurrency === "NGN" ? plan.price.NGN : plan.price.GBP}
                 </span>
-                <span className={`text-sm font-medium ${plan.featured ? "text-white/50" : "text-brand-mutedSage"}`}>/mo</span>
+                <span className={`text-sm font-medium ${plan.featured ? "text-white/50" : "text-brand-mutedSage"}`}>/month</span>
               </div>
 
               {/* Highlight pill */}

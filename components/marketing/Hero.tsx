@@ -125,11 +125,6 @@ export default function Hero() {
         {/* ── LEFT: Copy ── */}
         <div className="text-white space-y-7 text-center lg:text-left">
 
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white/80 text-xs font-semibold tracking-widest px-4 py-2 rounded-full animate-fadeInUp">
-            <span className="w-2 h-2 rounded-full bg-brand-yellow animate-pulse-dot" />
-            🇳🇬 Lagos &nbsp;·&nbsp; 🇬🇧 London &nbsp;
-          </div>
-
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.6rem] font-bold leading-[1.07] tracking-tight animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
             Give Your Child the<br />
             Academic Edge<br />
