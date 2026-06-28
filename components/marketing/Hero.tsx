@@ -195,7 +195,7 @@ export default function Hero() {
                 <p className="text-brand-deepGreen font-semibold text-sm leading-snug">
                   &quot;My daughter used to hate Maths. Now she actually asks to do extra practice!&quot;
                 </p>
-                <p className="text-brand-mutedSage text-xs mt-1.5 font-medium">— Parent, Lagos 🇳🇬</p>
+                <p className="text-brand-mutedSage text-xs mt-1.5 font-medium">Parent, Lagos 🇳🇬</p>
               </div>
             </div>
 
