@@ -29,9 +29,14 @@ export default function HomePage() {
             <div className="w-9 h-9 bg-brand-yellow rounded-xl flex items-center justify-center font-serif font-bold text-brand-deepGreen text-lg">
               S
             </div>
-            <span className="font-serif text-xl font-bold text-brand-deepGreen tracking-tight">
-              School<span className="text-brand-midGreen font-light font-sans">help</span>hub
-            </span>
+            <div className="flex flex-col leading-none">
+              <span className="font-serif text-xl font-bold text-brand-deepGreen tracking-tight">
+                School<span className="text-brand-midGreen font-light font-sans">help</span>hub
+              </span>
+              <span className="text-[10px] text-brand-mutedSage font-medium tracking-wide hidden sm:block">
+                A simplified learning approach
+              </span>
+            </div>
           </Link>
           <NavigationWrapper />
         </div>

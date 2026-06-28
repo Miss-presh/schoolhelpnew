@@ -43,7 +43,7 @@ const tiers = [
   },
   {
     name: "1-on-1 Elite",
-    age: "All Ages · 4–16 Years",
+    age: "All Ages · 5–16 Years",
     price: { NGN: "120,000", GBP: "60" },
     highlight: "Custom schedule · Any subject",
     description: "A dedicated personal tutor matched to your child's exact needs, schedule, and learning style.",

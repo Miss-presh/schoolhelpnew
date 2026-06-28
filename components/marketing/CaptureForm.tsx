@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-const AGE_OPTIONS = ["4–7 years (Year R–2)", "8–10 years (Year 3–5)", "11–13 years (Year 6–8)", "14–16 years (Year 9–11)"];
+const AGE_OPTIONS = ["5–7 years (Year 1–2)", "8–10 years (Year 3–5)", "11–13 years (Year 6–8)", "14–16 years (Year 9–11)"];
 const SUBJECT_OPTIONS = [
   "Mathematics", "English Language", "Science", "Coding & Technology",
   "Languages (French/Spanish)", "11+ Exam Prep", "GCSE Exam Prep",

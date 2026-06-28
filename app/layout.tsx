@@ -22,7 +22,7 @@ const serifFont = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Schoolhelphub — Expert Online Tutoring | Nigeria · UK · USA",
   description:
-    "Live online tutoring for children aged 4–16 in Nigeria, UK and USA. WAEC, GCSE, 11+ and SAT prep. Qualified teachers. Written progress report after every session.",
+    "Live online tutoring for children aged 5–16 in Nigeria, UK and USA. WAEC, GCSE, 11+ and SAT prep. Qualified teachers. Written progress report after every session.",
   keywords: [
     "online tutoring Nigeria",
     "WAEC tutoring online",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Schoolhelphub — Expert Online Tutoring",
-    description: "Live tutoring · Written report after every session · Ages 4–16 · Nigeria · UK · USA",
+    description: "Live tutoring · Written report after every session · Ages 5–16 · Nigeria · UK · USA",
     type: "website",
   },
   icons: {

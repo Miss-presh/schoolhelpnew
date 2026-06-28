@@ -58,9 +58,6 @@ export default function Testimonials() {
               {/* Stars */}
               <div className="text-brand-yellow text-base tracking-widest mb-4">★★★★★</div>
 
-              {/* Big quote mark */}
-              <div className="font-serif text-6xl leading-none text-brand-yellow/50 mb-0 -mt-2 select-none">&quot;</div>
-
               {/* Quote */}
               <p className="text-brand-textNearBlack text-sm leading-relaxed italic flex-grow mb-6">
                 {t.quote}

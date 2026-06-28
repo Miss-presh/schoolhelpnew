@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCurrency } from "@/context/CurrencyContext";
 
 const navLinks = [
   { name: "Subjects", href: "/#subjects" },
@@ -16,7 +15,6 @@ const navLinks = [
 
 export function NavigationWrapper() {
   const pathname = usePathname();
-  const { currency, setCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
 
   return (

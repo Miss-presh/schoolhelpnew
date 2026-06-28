@@ -40,6 +40,7 @@ function SafePhoto({
       className={`object-cover ${className}`}
       onError={() => setErrored(true)}
       sizes="(max-width: 768px) 50vw, 25vw"
+      unoptimized
     />
   );
 }
@@ -47,7 +48,7 @@ function SafePhoto({
 /* ── Tutor data ────────────────────────────────────────────── */
 const tutors = [
   {
-    src: "https://images.pexels.com/photos/5905757/pexels-photo-5905757.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop",
+    src: "https://images.unsplash.com/photo-1686153412122-789d30ee94b2?auto=format&fit=crop&w=400&h=500&q=80",
     fallbackBg: "bg-brand-deepGreen",
     initials: "AA",
     name: "Mrs. Adeyemi",
@@ -57,7 +58,7 @@ const tutors = [
     years: "8 yrs exp.",
   },
   {
-    src: "https://images.pexels.com/photos/8618069/pexels-photo-8618069.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop",
+    src: "https://images.unsplash.com/photo-1614023342667-6f060e9d1e04?auto=format&fit=crop&w=400&h=500&q=80",
     fallbackBg: "bg-brand-green",
     initials: "JO",
     name: "Mr. Osei",
@@ -67,7 +68,7 @@ const tutors = [
     years: "6 yrs exp.",
   },
   {
-    src: "https://images.pexels.com/photos/8423069/pexels-photo-8423069.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop",
+    src: "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?auto=format&fit=crop&w=400&h=500&q=80",
     fallbackBg: "bg-teal-700",
     initials: "CN",
     name: "Mrs. Nwosu",
@@ -77,10 +78,10 @@ const tutors = [
     years: "10 yrs exp.",
   },
   {
-    src: "https://images.pexels.com/photos/5905899/pexels-photo-5905899.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop",
+    src: "https://images.unsplash.com/photo-1764169689207-e23fb66e1fcf?auto=format&fit=crop&w=400&h=500&q=80",
     fallbackBg: "bg-emerald-700",
-    initials: "SC",
-    name: "Ms. Clarke",
+    initials: "TC",
+    name: "Mr. Clarke",
     subject: "Maths · GCSE · SAT",
     location: "Manchester",
     flag: "🇬🇧",
@@ -91,30 +92,30 @@ const tutors = [
 /* ── Session mosaic photos ─────────────────────────────────── */
 const mosaicPhotos = [
   {
-    src: "https://images.pexels.com/photos/34211747/pexels-photo-34211747.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
-    caption: "Live group session",
-    tag: "Group Class",
+    src: "https://images.pexels.com/photos/7015911/pexels-photo-7015911.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    caption: "Learning is fun!",
+    tag: "Our Students",
     span: "col-span-1 row-span-2",
     height: "h-full min-h-[320px]",
   },
   {
-    src: "https://images.pexels.com/photos/35610368/pexels-photo-35610368.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-    caption: "One-on-one Maths session",
-    tag: "1-on-1",
+    src: "https://images.pexels.com/photos/5905866/pexels-photo-5905866.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    caption: "Reading with confidence",
+    tag: "Ages 5–16",
     span: "col-span-1",
     height: "h-44",
   },
   {
-    src: "https://images.pexels.com/photos/11025029/pexels-photo-11025029.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
-    caption: "Science prep, Year 10",
-    tag: "GCSE Prep",
+    src: "https://images.pexels.com/photos/7577341/pexels-photo-7577341.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+    caption: "Live online session",
+    tag: "1-on-1 Elite",
     span: "col-span-1",
     height: "h-44",
   },
   {
-    src: "https://images.pexels.com/photos/5905956/pexels-photo-5905956.jpeg?auto=compress&cs=tinysrgb&w=700&h=400&fit=crop",
-    caption: "Qualified tutor — Mrs. Adeyemi",
-    tag: "Our Tutors",
+    src: "https://images.pexels.com/photos/5896747/pexels-photo-5896747.jpeg?auto=compress&cs=tinysrgb&w=700&h=400&fit=crop",
+    caption: "Happy students, real results",
+    tag: "Our Students",
     span: "col-span-2",
     height: "h-52",
   },
@@ -164,6 +165,7 @@ function MosaicPhoto({ photo }: { photo: typeof mosaicPhotos[0] }) {
             className="object-cover"
             sizes="(max-width: 768px) 50vw, 33vw"
             onError={() => setErrored(true)}
+            unoptimized
           />
         ) : (
           <div className="absolute inset-0 bg-brand-midGreen/30 flex items-center justify-center">

@@ -54,7 +54,7 @@ const plans = [
   {
     name: "1-on-1 Elite",
     badge: null,
-    ageGroup: "All Ages  ·  4–16 Years",
+    ageGroup: "All Ages  ·  5–16 Years",
     tagline: "Dedicated personal tutor",
     price: { NGN: "120,000", GBP: "60" },
     highlight: "Custom schedule · Any subject",
