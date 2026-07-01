@@ -39,172 +39,219 @@ function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-const services = [
-  "Live Online Classes",
-  "Friendly Tutors",
-  "Homework Support",
-  "Exam Preparation",
-  "Fun Learning Experience",
+const students = [
+  {
+    photo: "https://images.pexels.com/photos/5212318/pexels-photo-5212318.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop",
+    fallback: "👧🏽",
+    name: "Adaeze",
+    info: "Yr 10 · Lagos",
+    subject: "Maths",
+    result: "E8 → B2 WAEC",
+  },
+  {
+    photo: "https://images.pexels.com/photos/5896747/pexels-photo-5896747.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
+    fallback: "👧🏿",
+    name: "Blessing",
+    info: "Yr 8 · London",
+    subject: "English",
+    result: "Passed 11+",
+  },
+  {
+    photo: "https://images.pexels.com/photos/5905866/pexels-photo-5905866.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
+    fallback: "👦🏾",
+    name: "Tolu",
+    info: "Yr 6 · Manchester",
+    subject: "Science",
+    result: "C → A* GCSE",
+  },
+  {
+    photo: "https://images.pexels.com/photos/5905497/pexels-photo-5905497.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
+    fallback: "👦🏾",
+    name: "Emeka",
+    info: "Yr 11 · Abuja",
+    subject: "GCSE",
+    result: "Grade 4 → 8",
+  },
 ];
 
-export default function Hero() {
-  const mounted = useIsClient();
+function CardPhoto({ src, fallback, alt, fill }: { src: string; fallback: string; alt: string; fill?: boolean }) {
+  const [errored, setErrored] = useState(false);
+
+  if (errored) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center text-5xl">
+        {fallback}
+      </div>
+    );
+  }
 
   return (
-    <section className="relative bg-brand-cream overflow-hidden">
-      {/* Soft background blobs — mirrors the flyer's pastel gradient */}
-      <div className="absolute top-0 right-0 w-[640px] h-[640px] rounded-full bg-brand-lightGreen/80 blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[420px] h-[420px] rounded-full bg-brand-softYellow/60 blur-[110px] pointer-events-none" />
+    <Image
+      src={src}
+      alt={alt}
+      fill={fill}
+      width={fill ? undefined : 400}
+      height={fill ? undefined : 300}
+      className="object-cover"
+      onError={() => setErrored(true)}
+      sizes="(max-width: 768px) 50vw, 25vw"
+      unoptimized
+    />
+  );
+}
 
-      {/* Decorative sketch elements */}
-      <div className="absolute top-24 right-10 text-5xl opacity-15 rotate-12 select-none hidden xl:block animate-floatSlow">✏️</div>
-      <div className="absolute bottom-28 left-10 text-4xl opacity-15 -rotate-12 select-none hidden xl:block animate-float">💡</div>
+export default function Hero() {
+  const [activeCard, setActiveCard] = useState(0);
+  const mounted = useIsClient();
 
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-20 transition-opacity duration-700 ${mounted ? "opacity-100" : "opacity-0"}`}>
+  useEffect(() => {
+    const t = setInterval(() => setActiveCard(p => (p + 1) % students.length), 3200);
+    return () => clearInterval(t);
+  }, []);
 
-        {/* ── MAIN HEADLINE ── */}
-        <div className="text-center mb-12 animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
-          <p className="font-serif text-2xl sm:text-3xl font-bold text-brand-yellow leading-none mb-2">
-            Your child
+  return (
+    <section className="relative min-h-screen bg-brand-deepGreen overflow-hidden flex items-center">
+
+      {/* Background grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:56px_56px] pointer-events-none" />
+      <div className="absolute top-[-20%] right-[-12%] w-[600px] h-[600px] rounded-full bg-brand-midGreen/20 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[-15%] left-[-8%] w-[400px] h-[400px] rounded-full bg-brand-yellow/6 blur-[110px] pointer-events-none" />
+      <div className="absolute bottom-16 right-16 w-44 h-44 border border-brand-yellow/10 rounded-[50%_0_50%_0] rotate-45 pointer-events-none hidden lg:block animate-floatSlow" />
+
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center transition-opacity duration-700 ${mounted ? "opacity-100" : "opacity-0"}`}>
+
+        {/* LEFT: Copy */}
+        <div className="text-white space-y-7 text-center lg:text-left">
+
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.6rem] font-bold leading-[1.07] tracking-tight animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
+            Give Your Child the<br />
+            Academic Edge<br />
+            <span className="italic text-brand-yellow">They Deserve</span>
+          </h1>
+
+          <p className="text-white/65 text-lg font-light leading-relaxed max-w-md mx-auto lg:mx-0 animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
+            Live online classes with qualified teachers.<br className="hidden sm:block" />
+            Written progress report after <strong className="text-white font-semibold">every single session.</strong>
           </p>
-          <div className="flex items-center justify-center gap-3 sm:gap-5">
-            <span className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-brand-deepGreen leading-none">
-              Can
-            </span>
-            <span className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-brand-deepGreen bg-brand-yellow px-5 sm:px-7 py-1 sm:py-2 rounded-2xl sm:rounded-3xl leading-none inline-block">
-              Love
-            </span>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-fadeInUp" style={{ animationDelay: "0.3s" }}>
+            <Link
+              href="/#book"
+              className="w-full sm:w-auto text-center bg-brand-yellow hover:bg-brand-deepYellow text-brand-deepGreen font-bold px-8 py-4 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-brand-yellow/30 hover:-translate-y-1 tap-target animate-pulse-ring"
+            >
+              📚 Book a Session, No Payment
+            </Link>
+            <a
+              href="https://wa.me/2347043523556?text=Hi%20Schoolhelphub%2C%20I%27d%20like%20to%20book%20a%20free%20trial."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto text-center text-white/80 hover:text-white border border-white/20 hover:border-white/50 font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 tap-target"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.239 3.48 8.421-.003 6.557-5.338 11.902-11.892 11.902-2.004-.001-3.973-.51-5.713-1.479L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.37 9.864-9.742.002-2.602-1.01-5.05-2.85-6.892-1.84-1.842-4.29-2.856-6.889-2.858-5.441 0-9.867 4.371-9.871 9.743-.001 1.933.507 3.821 1.474 5.485L1.922 22.18l4.725-1.026z"/></svg>
+              WhatsApp Us →
+            </a>
           </div>
-          <p className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-brand-deepGreen leading-none mt-2">
-            Learning Again
-          </p>
-        </div>
 
-        {/* ── TWO COLUMNS ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-
-          {/* LEFT: 2/5 — description + services bubble + CTAs + stats */}
-          <div className="lg:col-span-2 space-y-5 animate-fadeInUp" style={{ animationDelay: "0.2s" }}>
-
-            {/* Green services bubble */}
-            <div className="bg-brand-deepGreen rounded-[32px] p-7 shadow-xl">
-              <div className="flex items-start gap-3 mb-5">
-                <span className="text-2xl flex-shrink-0 mt-0.5">🖥️</span>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Interactive online classes designed to help students aged{" "}
-                  <strong className="text-brand-yellow font-bold">5–16</strong> learn
-                  faster, better, and with confidence
-                </p>
-              </div>
-
-              <div className="border border-brand-yellow/50 rounded-full px-4 py-1.5 inline-flex items-center mb-5">
-                <span className="text-brand-yellow text-xs font-bold tracking-wide">Our Services</span>
-              </div>
-
-              <ul className="space-y-3">
-                {services.map((s) => (
-                  <li key={s} className="flex items-center gap-3">
-                    <span className="w-4 h-4 border-2 border-white/45 rounded-full flex-shrink-0" />
-                    <span className="text-white font-semibold text-sm">{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Mobile-only hero photo — between services card and CTAs */}
-            <div className="block lg:hidden relative" style={{ animationDelay: "0.25s" }}>
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-brand-deepGreen/15" style={{ minHeight: "300px" }}>
-                <Image
-                  src="https://images.pexels.com/photos/19148684/pexels-photo-19148684.jpeg?auto=compress&cs=tinysrgb&w=900&h=1000&fit=crop"
-                  alt="Happy student holding books and smiling confidently"
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                  priority
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-deepGreen/55 via-transparent to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 bg-white/93 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                  <p className="text-brand-deepGreen font-semibold text-sm leading-snug">
-                    &ldquo;My daughter used to hate Maths. Now she actually asks to do extra practice!&rdquo;
-                  </p>
-                  <p className="text-brand-mutedSage text-xs mt-1.5 font-medium"> Parent, Lagos 🇳🇬</p>
-                </div>
-              </div>
-              <div className="absolute -top-3 -right-3 bg-brand-yellow text-brand-deepGreen font-black text-xs px-4 py-2.5 rounded-xl shadow-lg border-2 border-white z-10">
-                Ages 5–16
-              </div> 
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-              <Link
-                href="/#book"
-                className="text-center bg-brand-deepGreen hover:bg-brand-green text-white font-bold px-6 py-4 rounded-xl text-sm transition-all duration-200 shadow-lg hover:-translate-y-0.5 tap-target animate-pulse-ring"
-              >
-                📚 Book a Free Session
-              </Link>
-              <a
-                href="https://wa.me/2347043523556?text=Hi%20Schoolhelphub%2C%20I%27d%20like%20to%20find%20out%20more%20about%20tutoring."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-center border-2 border-brand-deepGreen text-brand-deepGreen hover:bg-brand-deepGreen hover:text-white font-semibold px-6 py-4 rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 tap-target"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.239 3.48 8.421-.003 6.557-5.338 11.902-11.892 11.902-2.004-.001-3.973-.51-5.713-1.479L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.747 1.451 5.436 0 9.86-4.37 9.864-9.742.002-2.602-1.01-5.05-2.85-6.892-1.84-1.842-4.29-2.856-6.889-2.858-5.441 0-9.867 4.371-9.871 9.743-.001 1.933.507 3.821 1.474 5.485L1.922 22.18l4.725-1.026z" />
-                </svg>
-                WhatsApp Us →
-              </a>
-            </div>
-
-            {/* Stats */}
-            <div className="flex items-stretch gap-0 pt-2 animate-fadeInUp" style={{ animationDelay: "0.4s" }}>
-              {[
-                { num: 500, suffix: "+", label: "Students" },
-                { num: 94, suffix: "%", label: "Attendance" },
-                { num: 100, suffix: "%", label: "Reports Sent" },
-              ].map((s, i) => (
-                <div key={i} className="flex items-stretch gap-0">
-                  {i > 0 && <div className="w-px bg-brand-mutedSage/25 mx-4 self-stretch" />}
-                  <div className="text-center">
-                    <div className="font-serif text-2xl sm:text-3xl font-bold text-brand-deepGreen leading-none">
-                      <CountUp target={s.num} suffix={s.suffix} />
-                    </div>
-                    <div className="text-brand-mutedSage text-[11px] mt-1 font-medium tracking-wide">{s.label}</div>
+          {/* Stats */}
+          <div className="flex items-center justify-center lg:justify-start gap-0 pt-4 animate-fadeInUp" style={{ animationDelay: "0.45s" }}>
+            {[
+              { num: 500, suffix: "+", label: "Students Enrolled" },
+              { num: 94, suffix: "%", label: "Attendance Rate" },
+              { num: 100, suffix: "%", label: "Reports Sent" },
+            ].map((s, i) => (
+              <div key={i} className="flex items-stretch gap-0">
+                {i > 0 && <div className="w-px bg-white/12 mx-5 sm:mx-7 self-stretch" />}
+                <div className="text-center">
+                  <div className="font-serif text-3xl sm:text-4xl font-bold text-brand-yellow leading-none">
+                    <CountUp target={s.num} suffix={s.suffix} />
                   </div>
+                  <div className="text-white/45 text-[11px] mt-1.5 font-medium tracking-wide">{s.label}</div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT: 3/5 — hero photo (desktop only) */}
-          <div className="hidden lg:block lg:col-span-3 relative animate-fadeIn" style={{ animationDelay: "0.25s" }}>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-brand-deepGreen/15" style={{ minHeight: "520px" }}>
-              <Image
-                src="https://images.pexels.com/photos/19148684/pexels-photo-19148684.jpeg?auto=compress&cs=tinysrgb&w=900&h=1000&fit=crop"
-                alt="Happy student holding books and smiling confidently"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-deepGreen/55 via-transparent to-transparent" />
-
-              {/* Parent quote overlay */}
-              <div className="absolute bottom-5 left-5 right-5 bg-white/93 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                <p className="text-brand-deepGreen font-semibold text-sm leading-snug">
-                  &quot;My daughter used to hate Maths. Now she actually asks to do extra practice!&quot;
-                </p>
-                <p className="text-brand-mutedSage text-xs mt-1.5 font-medium">Parent, Lagos 🇳🇬</p>
               </div>
-            </div>
-
-            {/* Age badge */}
-            <div className="absolute -top-3 -right-3 bg-brand-yellow text-brand-deepGreen font-black text-xs px-4 py-2.5 rounded-xl shadow-lg border-2 border-white">
-              Ages 5–16
-            </div>
+            ))}
           </div>
         </div>
+
+        {/* RIGHT: Student photo grid */}
+        <div className="w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto animate-fadeIn" style={{ animationDelay: "0.3s" }}>
+
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            {students.map((s, i) => (
+              <div
+                key={i}
+                onClick={() => setActiveCard(i)}
+                className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 ${
+                  activeCard === i
+                    ? "ring-2 ring-brand-yellow ring-offset-2 ring-offset-brand-deepGreen scale-[1.02]"
+                    : "opacity-70 hover:opacity-95"
+                } ${i === 0 ? "row-span-2" : ""}`}
+                style={{ minHeight: i === 0 ? "240px" : "112px" }}
+              >
+                <CardPhoto src={s.photo} fallback={s.fallback} alt={`${s.name} — ${s.info}`} fill />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+
+                {activeCard === i && (
+                  <div className="absolute top-2.5 right-2.5 z-20">
+                    <span className="bg-brand-yellow text-brand-deepGreen text-[9px] font-extrabold px-2 py-0.5 rounded-full tracking-wider animate-bounce-in">
+                      ★ RESULT
+                    </span>
+                  </div>
+                )}
+
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-3">
+                  <p className={`font-bold text-white leading-tight ${i === 0 ? "text-sm" : "text-xs"}`}>{s.name}</p>
+                  <p className={`text-white/70 ${i === 0 ? "text-xs" : "text-[10px]"}`}>{s.info}</p>
+                  {i === 0 && (
+                    <div className="mt-2 bg-white/15 backdrop-blur-sm rounded-lg px-2.5 py-1.5 inline-block">
+                      <p className="text-[9px] text-white/65">{s.subject}</p>
+                      <p className="text-brand-yellow text-[11px] font-bold">{s.result}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Active result card */}
+          <div className="bg-white/8 backdrop-blur-sm border border-white/12 rounded-2xl p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0">
+                  <Image
+                    src={students[activeCard].photo}
+                    alt={students[activeCard].name}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                    unoptimized
+                  />
+                </div>
+                <div>
+                  <p className="text-white font-bold text-sm">{students[activeCard].name} · {students[activeCard].subject}</p>
+                  <p className="text-white/50 text-xs">{students[activeCard].info}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">Result</p>
+                <p className="text-brand-yellow font-bold text-sm">{students[activeCard].result}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex justify-center gap-2 mt-4">
+            {students.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveCard(i)}
+                className={`rounded-full transition-all duration-300 tap-target cursor-pointer ${
+                  activeCard === i ? "w-6 h-2 bg-brand-yellow" : "w-2 h-2 bg-white/30"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

@@ -101,7 +101,7 @@ export default function HomePage() {
                 href="/#book"
                 className="w-full sm:w-auto bg-brand-yellow hover:bg-brand-deepYellow text-brand-deepGreen font-bold px-8 py-4 rounded-xl text-sm shadow-xl shadow-brand-yellow/25 hover:-translate-y-0.5 transition-all duration-200 tap-target"
               >
-                📚 Book a Session Today — No Payment Needed
+                📚 Book a Session Today, No Payment Needed
               </Link>
               <Link
                 href="/#subjects"

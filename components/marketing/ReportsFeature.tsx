@@ -72,7 +72,7 @@ export default function ReportsFeature() {
                   AO
                 </div>
                 <div>
-                  <p className="font-bold text-brand-deepGreen text-sm">Adaeze Okonkwo</p>
+                  <p className="font-bold text-brand-deepGreen text-sm">Nick Michael</p>
                   <p className="text-brand-mutedSage text-xs mt-0.5">Mathematics · Year 6 · 11+ Preparation</p>
                 </div>
               </div>
@@ -96,7 +96,7 @@ export default function ReportsFeature() {
               <div className="bg-brand-softYellow border-l-4 border-brand-yellow rounded-r-xl p-4">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-brand-green mb-2">✏️ Tutor&apos;s Note</p>
                 <p className="text-brand-textNearBlack text-xs leading-relaxed">
-                  Adaeze showed <strong className="text-brand-green">strong understanding</strong> of fractions today. Recommend 20 mins of ratio practice before Thursday. She is on track for her target score. 🎯
+                  Nick showed <strong className="text-brand-green">strong understanding</strong> of fractions today. Recommend 20 mins of ratio practice before Thursday. She is on track for her target score. 🎯
                 </p>
               </div>
 
