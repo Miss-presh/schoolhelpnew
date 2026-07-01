@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sansFont.variable} ${serifFont.variable} scroll-smooth`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${sansFont.variable} ${serifFont.variable} scroll-smooth`}>
       <body className="bg-brand-cream text-brand-textNearBlack font-sans antialiased">
         <CurrencyProvider>
           {children}

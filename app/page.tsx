@@ -34,9 +34,7 @@ export default function RootHomepage() {
           <SubjectGrid />
         </section>
         <StudentPhotos />
-        <section id="pricing">
-          <PricingTable />
-        </section>
+        <PricingTable />
         <CaptureForm />
       </main>
 

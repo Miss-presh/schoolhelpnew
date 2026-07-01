@@ -49,7 +49,7 @@ export default function CaptureForm() {
   };
 
   return (
-    <section className="py-24 bg-brand-faintGreen px-4 sm:px-6 lg:px-8">
+    <section id="book" className="py-24 bg-brand-faintGreen px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-brand-lightGreen p-8 sm:p-12 shadow-md-brand">
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-3">
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-deepGreen">

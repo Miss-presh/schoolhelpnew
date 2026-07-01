@@ -13,27 +13,27 @@ export default function EnhancedTutorsPage() {
 
   const featuredTutors = [
     {
-      name: "Dr. Sarah Jenkins",
+      name: "Dr. Sarah Ade",
       title: "Senior Mathematics Specialist",
       credentials: "MSc Mathematics, PhD Quantum Mechanics (Imperial College London)",
       experience: "9+ Years Classroom Experience • 11+ & GCSE Board Specialist",
       bio: "Sarah focuses on turning math anxiety into calculated confidence, breaking down complex algebraic structures into intuitive visual blueprints.",
-      image: "/tutor2.jpg",
+      image: "https://images.unsplash.com/photo-1686153412122-789d30ee94b2?auto=format&fit=crop&w=400&h=500&q=80",
     },
     {
-      name: "Jonathan Vance, MA",
+      name: "Jonathan Tunji, MA",
       title: "English Language & Literature Lead",
       credentials: "BA English Literature (Oxford), MA Creative Writing (Columbia)",
       experience: "7+ Years Secondary Teaching Experience • AP & IB Exam Director",
-      image: "/tutor1.jpg",
+      image: "https://images.unsplash.com/photo-1614023342667-6f060e9d1e04?auto=format&fit=crop&w=400&h=500&q=80",
     },
     {
-      name: "Elena Rostova, MSc",
+      name: "Michelle Kayode, MSc",
       title: "Advanced STEM Discipline Specialist",
       credentials: "BSc Biomedical Sciences, MSc Biochemistry (King&apos;s College London)",
       experience: "6+ Years Specialized Tutoring • Separate & Combined Sciences Board Specialist",
-      bio: "Elena utilizes interactive digital mockups to make chemistry and physics deeply understandable, preparing secondary students for elite exam performance.",
-      image: "/tutor3.jpg",
+      bio: "Michelle utilizes interactive digital mockups to make chemistry and physics deeply understandable, preparing secondary students for elite exam performance.",
+      image: "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?auto=format&fit=crop&w=400&h=500&q=80",
     },
   ];
 
