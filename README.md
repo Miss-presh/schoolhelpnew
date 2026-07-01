@@ -12,20 +12,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view it.
 
-## Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/.../exec
-NEXT_PUBLIC_SITE_URL=https://schoolhelphub.com
-NEXT_PUBLIC_WHATSAPP_NUMBER=2347043523556
-```
-
-`GOOGLE_SHEETS_WEBHOOK_URL` is required for the contact and free-trial forms to actually
-save submissions — see [`GOOGLE_SHEETS_SETUP.md`](./GOOGLE_SHEETS_SETUP.md) for how to
-create and deploy that webhook. Without it, submissions are only logged to the server
-console.
 
 ## Project Structure
 
