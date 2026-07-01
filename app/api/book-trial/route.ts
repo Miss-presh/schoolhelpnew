@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
     const { parentName, email, phone, childAge, subject, timezone, message } = body;
 
-    if (!parentName || !email || !phone || !childAge || !subject || !timezone) {
+    if (!parentName || !email || !phone || !childAge || !subject) {
       return NextResponse.json({ error: "Please fill in all required fields." }, { status: 400 });
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       phone,
       childAge,
       subject,
-      timezone,
+      timezone: timezone || "",
       message: message || "",
       submittedAt: new Date().toISOString(),
       source: "schoolhelphub-website",

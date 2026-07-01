@@ -1,44 +1,48 @@
-# Google Sheets Booking Form — Setup Guide
 
-Booking form submissions from the website are saved to a Google Sheet via a
-Google Apps Script web app. No extra npm packages are needed.
-
----
-
-## Step 1 — Create the Google Sheet
-
-1. Go to **sheets.google.com** and create a new spreadsheet.
-2. Name the first sheet tab: **`Enquiries`**
-3. Add these headers in row 1 (in order):
-
-   | A | B | C | D | E | F | G | H |
-   |---|---|---|---|---|---|---|---|
-   | Submitted At | Parent Name | Email | Phone | Child Age | Subject | Timezone | Message |
-
----
-
-## Step 2 — Create the Apps Script
-
-1. In your Google Sheet, click **Extensions → Apps Script**.
-2. Delete any existing code in `Code.gs`.
-3. Paste the following script:
 
 ```javascript
+function getOrCreateSheet(ss, name, headers) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    sheet.appendRow(headers);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+  }
+  return sheet;
+}
+
 function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Enquiries");
     var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
 
-    sheet.appendRow([
-      data.submittedAt || new Date().toISOString(),
-      data.parentName  || "",
-      data.email       || "",
-      data.phone       || "",
-      data.childAge    || "",
-      data.subject     || "",
-      data.timezone    || "",
-      data.message     || "",
-    ]);
+    if (data.source === "contact-form") {
+      // Contact page submissions — no phone/child age/timezone, has a free-text message
+      var contactSheet = getOrCreateSheet(ss, "Contact Messages",
+        ["Submitted At", "Name", "Email", "Subject", "Message"]);
+
+      contactSheet.appendRow([
+        data.submittedAt || new Date().toISOString(),
+        data.parentName  || "",
+        data.email       || "",
+        data.subject     || "",
+        data.message     || "",
+      ]);
+    } else {
+      // Free-trial / homepage booking form submissions
+      var enquirySheet = getOrCreateSheet(ss, "Enquiries",
+        ["Submitted At", "Parent Name", "Email", "Phone", "Child Age", "Subject", "Message"]);
+
+      enquirySheet.appendRow([
+        data.submittedAt || new Date().toISOString(),
+        data.parentName  || "",
+        data.email       || "",
+        data.phone       || "",
+        data.childAge    || "",
+        data.subject     || "",
+        data.message     || "",
+      ]);
+    }
 
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
@@ -52,22 +56,17 @@ function doPost(e) {
 }
 ```
 
-4. Click **Save** (Ctrl+S).
+This routes each submission by its `source` field (`"contact-form"` vs the booking forms) into
+two separate sheet tabs — **Enquiries** and **Contact Messages** — each created automatically
+with its own header row the first time a submission of that type comes in. The old **Enquiries**
+tab with the mixed-up "Timezone" column can be renamed/archived; new rows will go into the fresh
+tabs created by this script. (The `Timezone` column was dropped — the current form never actually
+asks parents for their timezone, so that field was always empty or misleadingly derived from the
+"curriculum" dropdown. Curriculum preference now appears in the Message column instead.)
 
----
-
-## Step 3 — Deploy as a Web App
-
-1. Click **Deploy → New deployment**.
-2. Click the gear icon next to "Select type" → choose **Web app**.
-3. Set:
-   - **Description**: Schoolhelphub booking form
-   - **Execute as**: Me (your Google account)
-   - **Who has access**: **Anyone, even anonymous** ← ⚠️ CRITICAL — must be this, NOT just "Anyone"
-     (If set to just "Anyone", Google redirects unauthenticated requests to a login page
-     and nothing gets saved — this is the most common reason submissions don't appear.)
-4. Click **Deploy**.
-5. **Copy the deployment URL** — it looks like:
+4. Click **Save** (Ctrl+S), then **Deploy → Manage deployments → edit (pencil icon) → New version → Deploy**
+   to push this change to your existing webhook URL (editing the script alone does NOT update
+   what's already deployed).
    ```
    https://script.google.com/macros/s/AKfycb.../exec
    ```
@@ -82,29 +81,8 @@ Open `.env` and paste the URL:
 GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycb.../exec
 ```
 
-Restart your Next.js dev server (`npm run dev`) to pick up the change.
-
----
-
-## Testing
-
-Submit the booking form on the website. A new row should appear in your Google
-Sheet within seconds. If it doesn't:
-
-1. Check the browser network tab — the `/api/book-trial` POST should return `{ "success": true }`.
-2. Check server logs (`npm run dev` console) for `[book-trial]` messages.
-3. Re-deploy the Apps Script if you edited it (previous deployment URLs become stale).
-
----
-
-## Optional: Email notification on new submission
-
-Add this to your Apps Script to receive an email alert when someone books:
-
 ```javascript
 function doPost(e) {
-  // ... existing code ...
-
   // Add after sheet.appendRow(...)
   MailApp.sendEmail({
     to: "your@email.com",
@@ -116,7 +94,6 @@ function doPost(e) {
       "Phone: " + data.phone,
       "Child age: " + data.childAge,
       "Subject: " + data.subject,
-      "Timezone: " + data.timezone,
       "Message: " + data.message,
     ].join("\n")
   });

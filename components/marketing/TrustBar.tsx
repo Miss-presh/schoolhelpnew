@@ -1,28 +1,35 @@
 "use client";
 
-const points = [
-  { icon: "✅", text: "Qualified & Vetted Tutors" },
-  { icon: "📋", text: "Written Report After Every Class" },
-  { icon: "🎥", text: "Live + Recorded Sessions" },
-  { icon: "🔒", text: "Safe & GDPR Compliant" },
-];
-
 export default function TrustBar() {
+  const points = [
+    { icon: "🎓", text: "Qualified UK & US School Teachers Only" },
+    { icon: "🛡️", text: "100% Enhanced DBS & Background Checked" },
+    { icon: "📊", text: "Detailed Progress Report After Every Single Class" },
+    { icon: "⭐", text: "4.9/5 Parent Rating on Trustpilot" },
+    { icon: "🎯", text: "Curriculum Aligned: 11+, KS2-4, GCSE, & US Standards" },
+  ];
+
   return (
-    <div className="bg-brand-green border-y border-brand-yellow/15 py-4 px-4 overflow-x-auto">
-      <div className="max-w-7xl mx-auto flex items-center justify-center min-w-max mx-auto gap-0">
-        {points.map((p, i) => (
-          <div key={i} className="flex items-center gap-0">
-            {i > 0 && <div className="w-px h-6 bg-white/15 mx-4 sm:mx-7" />}
-            <div className="flex items-center gap-2.5 flex-shrink-0">
-              <span className="text-base sm:text-lg bg-white/10 w-8 h-8 rounded-lg flex items-center justify-center">
-                {p.icon}
+    <section className="bg-brand-deepGreen border-y-2 border-brand-green py-6 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center items-center justify-center">
+          {points.map((point, idx) => (
+            <div 
+              key={idx} 
+              className={`flex flex-col sm:flex-row items-center justify-center gap-3 px-2 ${
+                idx === 4 ? "col-span-2 md:col-span-1" : ""
+              }`}
+            >
+              <span className="text-2xl bg-brand-green/40 w-10 h-10 rounded-xl flex items-center justify-center shadow-inner">
+                {point.icon}
               </span>
-              <span className="text-white/85 text-xs sm:text-sm font-medium whitespace-nowrap">{p.text}</span>
+              <p className="text-xs sm:text-sm font-sans font-medium text-brand-lightGreen/90 max-w-[180px] sm:text-left leading-snug">
+                {point.text}
+              </p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

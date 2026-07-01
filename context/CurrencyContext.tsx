@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type Currency = "NGN" | "GBP";
 
@@ -13,11 +13,14 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-  const [currency, setCurrencyState] = useState<Currency>(() => {
-    if (typeof window === "undefined") return "NGN";
+  const [currency, setCurrencyState] = useState<Currency>("NGN");
+
+  useEffect(() => {
     const saved = localStorage.getItem("shh_currency_v4");
-    return saved === "GBP" ? "GBP" : "NGN";
-  });
+    // One-time sync from localStorage after hydration (server always renders "NGN") — not a cascading update.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (saved === "GBP") setCurrencyState("GBP");
+  }, []);
 
   const setCurrency = (c: Currency) => {
     setCurrencyState(c);

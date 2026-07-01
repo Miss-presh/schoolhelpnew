@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Form Component that reads search params natively
 function FreeTrialForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(() => searchParams.get("status") === "success");
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     parentName: "",
@@ -18,20 +20,51 @@ function FreeTrialForm() {
     regionalCurriculum: "UK",
   });
 
- const isSuccess = submitted || searchParams.get("status") === "success";
+  // Auto-return to the form 3 seconds after a successful submission
+  useEffect(() => {
+    if (!showSuccess) return;
+    const t = setTimeout(() => {
+      setShowSuccess(false);
+      if (searchParams.get("status") === "success") router.replace("/free-trial");
+    }, 3000);
+    return () => clearTimeout(t);
+  }, [showSuccess, router, searchParams]);
 
   const handleRegistrationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
 
-    // Simulate database commitment latency
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/book-trial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          parentName: formData.parentName,
+          email: formData.parentEmail,
+          phone: formData.parentPhone,
+          childAge: formData.childAge,
+          subject: formData.targetSubject,
+          timezone: "",
+          message: `Preferred curriculum: ${formData.regionalCurriculum === "UK" ? "United Kingdom (GCSE / 11+ / KS1-4)" : "United States (K-12 / AP Foundations)"}`,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed. Please try again.");
+      }
+
       setLoading(false);
-      setSubmitted(true);
-    }, 1400);
+      setShowSuccess(true);
+      setFormData({ parentName: "", parentEmail: "", parentPhone: "", childAge: "", targetSubject: "", regionalCurriculum: "UK" });
+    } catch (err) {
+      setLoading(false);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try WhatsApp.");
+    }
   };
 
-  if (isSuccess) {
+  if (showSuccess) {
     return (
       <div className="text-center py-16 px-4 space-y-6 max-w-xl mx-auto bg-white rounded-3xl border border-brand-lightGreen p-8 sm:p-12 shadow-md-brand animate-fadeIn">
         <div className="text-5xl bg-brand-lightGreen w-20 h-20 rounded-full flex items-center justify-center mx-auto text-brand-deepGreen shadow-inner">
@@ -166,6 +199,12 @@ function FreeTrialForm() {
           </div>
 
         </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+            ⚠️ {error}
+          </div>
+        )}
 
         <button
           type="submit"

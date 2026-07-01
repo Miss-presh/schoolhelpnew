@@ -105,7 +105,7 @@ export default function FAQPage() {
               Contact Coordination Board
             </Link>
             <a 
-              href="https://wa.me/07043523556"
+              href="https://wa.me/2347043523556?text=Hi%20Schoolhelphub%2C%20I%20have%20a%20question%20that%27s%20not%20covered%20in%20the%20FAQ."
               target="_blank"
               rel="noopener noreferrer"
               className="border border-brand-lightGreen hover:bg-brand-lightGreen/10 text-brand-lightGreen font-bold px-8 py-3.5 rounded-xl text-sm transition-all duration-150 inline-block tap-target w-full sm:w-auto"

@@ -1,160 +1,164 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
 import { useCurrency } from "@/context/CurrencyContext";
 
-function useIsClient() {
-  return useSyncExternalStore(() => () => {}, () => true, () => false);
-}
+export default function DedicatedPricingPage() {
+  const { currency, setCurrency } = useCurrency();
 
-const tiers = [
-  {
-    name: "Group Primary",
-    age: "Year 2–8 · Ages 6–13",
-    price: { NGN: "60,000", GBP: "30" },
-    highlight: "16+ hours/month · Mon–Thurs",
-    description: "Build unshakeable foundations in Maths, English, Science and more with our small group classes.",
-    features: [
-      "Small group classes (max 6 students)",
-      "Live interactive sessions",
-      "Session report after every class",
-      "Recorded sessions for replay",
-      "Parent dashboard access",
-      "Mon–Thurs schedule",
-    ],
-    cta: "Book a Session",
-  },
-  {
-    name: "Group GCSE",
-    age: "Year 9–11 · Ages 13–16",
-    price: { NGN: "80,000", GBP: "40" },
-    highlight: "20+ hours/month · Mon–Fri",
-    description: "Targeted exam success with year-specific GCSE, WAEC and IGCSE preparation.",
-    features: [
-      "Year-specific exam prep (GCSE, WAEC)",
-      "Year 9: Foundation · Year 10: Practice",
-      "Year 11: Past papers & exam skills",
-      "Full progress reports & analytics",
-      "Mock exam sessions included",
-      "Mon–Fri schedule",
-    ],
-    cta: "Get Started",
-  },
-  {
-    name: "1-on-1 Elite",
-    age: "All Ages · 5–16 Years",
-    price: { NGN: "120,000", GBP: "60" },
-    highlight: "Custom schedule · Any subject",
-    description: "A dedicated personal tutor matched to your child's exact needs, schedule, and learning style.",
-    features: [
-      "1-on-1 dedicated qualified tutor",
-      "Fully personalised lesson plan",
-      "11+, GCSE, WAEC, SAT/ACT prep",
-      "Flexible morning/afternoon/evening",
-      "Detailed session reports",
-      "Priority tutor matching",
-    ],
-    cta: "Book a Session",
-  },
-];
-
-export default function PricingPage() {
-  const { currency, setCurrency, symbol } = useCurrency();
-  const isClient = useIsClient();
-  const active = isClient ? currency : "NGN";
+  const tiers = [
+    {
+      name: "Primary Core Tier",
+      age: "Ages 5 - 11 • Key Stage 1 & 2 / Grades K-5",
+      price: { GBP: "35", NGN: "60,000" },
+      description: "Ideal for establishing foundational mathematics confidence, core reading comprehension, and competitive 11+ entry prep.",
+      features: [
+        "1-on-1 Session with Qualified School Teacher",
+        "Custom Match Based on Student Learning Style",
+        "Direct School Syllabus Synchronization",
+        "Post-Lesson Micro-Analytics Reporting (15 Mins)",
+        "Complimentary Monthly Mock Simulations",
+        "Direct Coordinator WhatsApp Hotline Access",
+      ],
+      cta: "Initialize Primary Track",
+    },
+    {
+      name: "Secondary Excellence",
+      age: "Ages 11 - 16 • Key Stage 3 & 4 / GCSE / Grades 6-10",
+      price: { GBP: "45", NGN: "80,000" },
+      description: "Rigorous, exam-board specific instruction targeting top marks in GCSEs, AP modules, and critical school transitions.",
+      features: [
+        "Specialist Subject Lead Teacher Assignment",
+        "Exam-Board Specific Strategy & Mock Evaluation",
+        "Advanced Study System & Note-Taking Frameworks",
+        "Post-Lesson Micro-Analytics Reporting (15 Mins)",
+        "24/7 Digital Student Performance Portal Access",
+        "Priority Assignment Routing & Fast-Track Rescheduling",
+      ],
+      cta: "Initialize Secondary Track",
+    },
+  ];
 
   return (
-    <div className="bg-brand-cream text-brand-textNearBlack font-sans antialiased">
-
-      {/* Header */}
+    <div className="bg-brand-cream text-brand-textNearBlack font-sans antialiased selection:bg-brand-yellow selection:text-brand-deepGreen">
+      
+      {/* 1. Header Hero Fold */}
       <section className="py-20 bg-brand-faintGreen border-b border-brand-lightGreen/60 text-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto space-y-5">
+        <div className="max-w-4xl mx-auto space-y-5">
           <span className="text-xs font-bold tracking-widest uppercase text-brand-midGreen bg-brand-lightGreen px-4 py-1.5 rounded-full border border-brand-green/10">
-            Simple Pricing
+            Transparent Investment
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-brand-deepGreen leading-tight">
-            Choose Your Plan
+          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-brand-deepGreen tracking-tight leading-tight">
+            Predictable Hourly Rates. <br /> Zero Hidden Fees.
           </h1>
-          <p className="text-brand-mutedSage text-base font-light">
-            Monthly subscriptions · No hidden fees · Cancel anytime
+          <p className="text-base sm:text-lg text-brand-mutedSage max-w-2xl mx-auto leading-relaxed">
+            We believe premium private tutoring should be transparent. Select your localized currency framework below to view our global standard pricing modules.
           </p>
 
-          {/* Currency toggle */}
-          <div className="pt-2 flex justify-center">
+          {/* Page-Level Currency Toggle Synchronizer */}
+          <div className="pt-4 flex justify-center">
             <div className="inline-flex bg-white p-1 rounded-xl border border-brand-lightGreen shadow-sm">
               <button
-                onClick={() => setCurrency("NGN")}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer ${
-                  active === "NGN" ? "bg-brand-deepGreen text-white shadow-sm" : "text-brand-mutedSage hover:text-brand-deepGreen"
+                onClick={() => setCurrency("GBP")}
+                className={`px-5 py-2 rounded-lg text-xs font-bold transition-all duration-200 uppercase tracking-wider cursor-pointer ${
+                  currency === "GBP"
+                    ? "bg-brand-deepGreen text-white shadow-sm"
+                    : "text-brand-mutedSage hover:text-brand-deepGreen"
                 }`}
               >
-                🇳🇬 NGN (₦)
+                GBP (£) Rates
               </button>
               <button
-                onClick={() => setCurrency("GBP")}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer ${
-                  active === "GBP" ? "bg-brand-deepGreen text-white shadow-sm" : "text-brand-mutedSage hover:text-brand-deepGreen"
+                onClick={() => setCurrency("NGN")}
+                className={`px-5 py-2 rounded-lg text-xs font-bold transition-all duration-200 uppercase tracking-wider cursor-pointer ${
+                  currency === "NGN"
+                    ? "bg-brand-deepGreen text-white shadow-sm"
+                    : "text-brand-mutedSage hover:text-brand-deepGreen"
                 }`}
               >
-                🇬🇧 GBP (£)
+                NGN (₦) Rates
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Plans */}
-      <section className="py-20 bg-white px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-7">
+      {/* 2. Comprehensive Matrix Row */}
+      <section className="py-24 bg-white px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {tiers.map((tier, idx) => (
-            <div key={idx} className="bg-brand-cream border border-brand-lightGreen p-8 rounded-2xl shadow-sm hover:shadow-md hover:border-brand-green/25 transition-all duration-300 flex flex-col">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-mutedSage mb-1">{tier.age}</span>
-              <h2 className="font-serif text-2xl font-bold text-brand-deepGreen mb-2">{tier.name}</h2>
-              <p className="text-sm text-brand-mutedSage font-light mb-5 leading-relaxed">{tier.description}</p>
-              <div className="flex items-baseline gap-1 pb-5 mb-5 border-b border-brand-lightGreen/60">
-                <span className="font-serif text-4xl font-bold text-brand-deepGreen">
-                  {isClient ? symbol : "₦"}{active === "NGN" ? tier.price.NGN : tier.price.GBP}
-                </span>
-                <span className="text-sm text-brand-mutedSage">/mo</span>
+            <div 
+              key={idx}
+              className="bg-brand-cream border border-brand-lightGreen p-8 sm:p-12 rounded-3xl shadow-sm-brand flex flex-col justify-between transition-all duration-300 hover:shadow-md-brand hover:border-brand-green/30"
+            >
+              <div className="space-y-6">
+                <div>
+                  <span className="text-xs font-bold text-brand-midGreen uppercase tracking-widest block mb-1">
+                    {tier.age}
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-deepGreen">
+                    {tier.name}
+                  </h2>
+                </div>
+
+                <p className="text-sm text-brand-mutedSage font-sans leading-relaxed">
+                  {tier.description}
+                </p>
+
+                <div className="flex items-baseline gap-1 py-4 border-y border-brand-lightGreen/60">
+                  <span className="text-5xl font-serif font-bold text-brand-deepGreen transition-all duration-150">
+                    {currency === "GBP" ? "£" : "₦"}
+                    {currency === "GBP" ? tier.price.GBP : tier.price.NGN}
+                  </span>
+                  <span className="text-sm font-semibold text-brand-mutedSage">/ per hour premium rate</span>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-deepGreen">
+                    Included Operational Standards:
+                  </h4>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {tier.features.map((feat, fIdx) => (
+                      <li key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-brand-textNearBlack font-medium">
+                        <span className="text-brand-green font-bold flex-shrink-0">✓</span>
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="text-xs font-semibold text-brand-green bg-brand-faintGreen px-3 py-1.5 rounded-full w-fit mb-5">
-                ⏱ {tier.highlight}
+
+              <div className="pt-10">
+                <Link
+                  href="/free-trial"
+                  className="block w-full text-center bg-brand-green hover:bg-brand-midGreen text-white font-bold py-4 px-6 rounded-xl transition-all duration-150 shadow-sm-brand tap-target text-sm"
+                >
+                  {tier.cta}
+                </Link>
               </div>
-              <ul className="space-y-3 mb-8 flex-grow">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-brand-textNearBlack">
-                    <span className="text-brand-green font-bold flex-shrink-0">✓</span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/#book"
-                className="block w-full text-center border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-bold py-3.5 rounded-xl transition-all duration-200 tap-target text-sm"
-              >
-                {tier.cta} →
-              </Link>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Reassurances */}
-      <section className="py-14 bg-brand-faintGreen border-t border-brand-lightGreen/60 text-center px-4">
+      {/* 3. Reassurance Policy Banner */}
+      <section className="py-16 bg-brand-faintGreen/40 border-t border-brand-lightGreen/60 text-center px-4">
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {[
-            { title: "Free First Session", desc: "No payment needed for your trial class." },
-            { title: "Flexible Scheduling", desc: "Morning, afternoon and evening — all timezones." },
-            { title: "Cancel Anytime", desc: "No lock-in contracts. Cancel with one message." },
-          ].map((r) => (
-            <div key={r.title} className="space-y-1">
-              <h5 className="font-serif font-bold text-brand-deepGreen">{r.title}</h5>
-              <p className="text-xs text-brand-mutedSage font-light">{r.desc}</p>
-            </div>
-          ))}
+          <div className="space-y-1">
+            <h5 className="font-serif font-bold text-brand-deepGreen text-base">Pay-As-You-Learn</h5>
+            <p className="text-xs text-brand-mutedSage">No upfront monthly bulk package commitments required.</p>
+          </div>
+          <div className="space-y-1">
+            <h5 className="font-serif font-bold text-brand-deepGreen text-base">Tutor Swap Guarantee</h5>
+            <p className="text-xs text-brand-mutedSage">Request an academic coordinator shift matches at any time instantly.</p>
+          </div>
+          <div className="space-y-1">
+            <h5 className="font-serif font-bold text-brand-deepGreen text-base">100% Secure Processing</h5>
+            <p className="text-xs text-brand-mutedSage">Fully encrypted invoicing frameworks built for parental safety.</p>
+          </div>
         </div>
       </section>
+
     </div>
   );
 }

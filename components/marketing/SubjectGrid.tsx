@@ -1,107 +1,48 @@
 "use client";
 
-const subjects = [
-  {
-    icon: "📐",
-    name: "Mathematics",
-    desc: "Number, algebra, geometry and statistics from primary through GCSE.",
-    tags: ["Ages 5–16", "11+", "GCSE", "WAEC"],
-    gradient: "from-blue-50 to-indigo-50",
-    accent: "bg-blue-100",
-  },
-  {
-    icon: "📖",
-    name: "English Language & Literature",
-    desc: "Comprehension, creative writing, grammar and essay craft.",
-    tags: ["Ages 5–16", "KS2–KS3", "GCSE", "BECE"],
-    gradient: "from-amber-50 to-orange-50",
-    accent: "bg-amber-100",
-  },
-  {
-    icon: "🔬",
-    name: "Science",
-    desc: "Biology, Chemistry and Physics — UK & Nigerian curriculum aligned.",
-    tags: ["Secondary", "GCSE", "WAEC", "NECO"],
-    gradient: "from-emerald-50 to-teal-50",
-    accent: "bg-emerald-100",
-  },
-  {
-    icon: "💻",
-    name: "Coding & Technology",
-    desc: "Python, data skills and computational thinking from first principles.",
-    tags: ["All Ages", "Python", "Web Dev"],
-    gradient: "from-cyan-50 to-sky-50",
-    accent: "bg-cyan-100",
-  },
-  {
-    icon: "🗣️",
-    name: "Languages",
-    desc: "French and Spanish — conversational fluency and curriculum grammar.",
-    tags: ["All Ages", "French", "Spanish"],
-    gradient: "from-rose-50 to-pink-50",
-    accent: "bg-rose-100",
-  },
-  {
-    icon: "🎯",
-    name: "Exam Preparation",
-    desc: "Specialist coaching for 11+, GCSE, WAEC, BECE, SAT and ACT.",
-    tags: ["11+", "GCSE", "WAEC", "SAT/ACT"],
-    gradient: "from-purple-50 to-fuchsia-50",
-    accent: "bg-purple-100",
-  },
-];
+import React from "react";
 
 export default function SubjectGrid() {
-  return (
-    <section id="subjects" className="py-20 lg:py-28 bg-white px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+  const subjects = [
+    { title: "Mathematics Core", levels: "KS1-4 • GCSE • 11+ Prep • AP Calc", icon: "📐", color: "from-blue-50 to-indigo-50" },
+    { title: "English & Writing", levels: "Phonics • Comprehension • Creative • Language", icon: "✍️", color: "from-amber-50 to-orange-50" },
+    { title: "Sciences Tier", levels: "Biology • Chemistry • Physics • Integrated", icon: "🔬", color: "from-emerald-50 to-teal-50" },
+    { title: "11+ & Entrance Exams", levels: "Verbal Reasoning • Non-Verbal • Mock Strategy", icon: "🎯", color: "from-purple-50 to-fuchsia-50" },
+    { title: "Computer Science", levels: "Scratch Blocks • Python Basics • Web Stack Dev", icon: "💻", color: "from-cyan-50 to-sky-50" },
+    { title: "Modern Languages", levels: "French Foundation • Spanish Speaking • Academic GCSE", icon: "🗣️", color: "from-rose-50 to-pink-50" },
+  ];
 
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14 space-y-4 reveal">
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-deepGreen">
-            Our <em className="italic text-brand-midGreen">Subjects</em>
+  return (
+    <section className="py-20 bg-white px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <span className="text-xs font-bold tracking-widest uppercase text-brand-midGreen bg-brand-lightGreen px-4 py-1.5 rounded-full border border-brand-green/10">
+            Curriculum Spectrum
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-brand-deepGreen">
+            Specialized Instruction for Ages 5 to 16
           </h2>
-          <p className="text-brand-mutedSage font-light text-base">
-            Primary through Secondary exam prep, core subjects, and skills for life.
+          <p className="text-sm sm:text-base text-brand-mutedSage">
+            All learning tracks are custom-tailored directly to regional educational boards across the UK and United States.
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {subjects.map((s, i) => (
-            <div
-              key={i}
-              className={`reveal-scale delay-${Math.min((i % 3 + 1) * 100, 300)} group relative bg-white border border-brand-lightGreen rounded-2xl p-6 hover:shadow-lg hover:shadow-brand-green/8 hover:border-brand-green/25 hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden`}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {subjects.map((sub, idx) => (
+            <div 
+              key={idx} 
+              className="group bg-brand-cream border border-brand-lightGreen p-6 rounded-2xl flex items-start gap-4 transition-all duration-300 hover:bg-white hover:shadow-md-brand hover:border-brand-green/30"
             >
-              {/* Subtle gradient overlay on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-0 group-hover:opacity-60 transition-opacity duration-300 rounded-2xl`} />
-
-              {/* Arrow top-right */}
-              <div className="absolute top-5 right-5 w-8 h-8 rounded-full bg-brand-faintGreen flex items-center justify-center text-brand-midGreen text-xs opacity-0 group-hover:opacity-100 group-hover:bg-brand-yellow group-hover:text-brand-deepGreen transition-all duration-300">
-                →
-              </div>
-
-              <div className="relative z-10">
-                {/* Icon */}
-                <div className={`w-12 h-12 ${s.accent} rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform duration-200`}>
-                  {s.icon}
-                </div>
-
-                <h3 className="font-serif font-bold text-brand-deepGreen text-base mb-2 group-hover:text-brand-midGreen transition-colors duration-200">
-                  {s.name}
+              <span className="text-3xl p-3 bg-white rounded-xl shadow-sm border border-brand-lightGreen/60 group-hover:scale-110 transition-transform duration-200">
+                {sub.icon}
+              </span>
+              <div>
+                <h3 className="text-base font-serif font-bold text-brand-deepGreen group-hover:text-brand-midGreen transition-colors duration-200">
+                  {sub.title}
                 </h3>
-                <p className="text-brand-mutedSage text-sm leading-relaxed mb-4 font-light">
-                  {s.desc}
+                <p className="text-xs sm:text-sm text-brand-mutedSage mt-1 font-sans leading-relaxed">
+                  {sub.levels}
                 </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                  {s.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] font-semibold bg-brand-faintGreen text-brand-green px-2.5 py-1 rounded-full tracking-wide">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           ))}

@@ -162,7 +162,7 @@ function MosaicPhoto({ photo }: { photo: typeof mosaicPhotos[0] }) {
             src={photo.src}
             alt={photo.caption}
             fill
-            className="object-cover"
+            className="object-cover object-top"
             sizes="(max-width: 768px) 50vw, 33vw"
             onError={() => setErrored(true)}
             unoptimized
